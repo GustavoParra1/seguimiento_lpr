@@ -80,4 +80,9 @@ st.markdown(f"Cámaras comunes a menos de **{radio_m} m** de la LPR **{camara_lp
 st_folium(m, width=700, height=500)
 
 # Mostrar tabla si hay resultados
-if camaras_en_rango
+if camaras_en_rango:
+    st.subheader("📋 Cámaras comunes en rango (azules):")
+    df_rango = pd.DataFrame(camaras_en_rango)
+    st.dataframe(df_rango)
+else:
+    st.info("No hay cámaras comunes dentro del radio.")
