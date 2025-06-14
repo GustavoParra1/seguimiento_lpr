@@ -8,20 +8,25 @@ from geopy.distance import geodesic
 # Cargar datos
 df = pd.read_csv("camaraslpr.csv", encoding="latin-1")
 
-# Convertir lat/lon a float (tenían comas)
+# Normalizar nombres de columnas
+df.columns = df.columns.str.strip()
+df.columns = df.columns.str.normalize('NFKD').str.encode('ascii', errors='ignore').str.decode('utf-8')
+
+# Convertir lat/lon a float
 df['latitud'] = df['latitud'].str.replace(',', '.', regex=False).astype(float)
 df['longitud'] = df['longitud'].str.replace(',', '.', regex=False).astype(float)
 
 # Separar cámaras
 df_lpr = df[df['Tipo'].str.lower() == 'lpr']
-df_comunes = df[df['Tipo'].str.lower() == 'común']
+df_comunes = df[df['Tipo'].str.lower() == 'comun']
 
-# Sidebar: cámara LPR
+# Sidebar
 st.sidebar.title("Seguimiento desde LPR")
 camara_lpr_sel = st.sidebar.selectbox(
     "Seleccioná una cámara LPR",
     df_lpr['id_camara LPR'].unique()
 )
+
 
 # Coordenadas base
 camara_base = df_lpr[df_lpr['id_cámara LPR'] == camara_lpr_sel].iloc[0]
