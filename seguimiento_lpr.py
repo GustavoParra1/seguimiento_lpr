@@ -41,7 +41,7 @@ folium.Marker(
 ).add_to(m)
 
 # Filtrar y marcar cámaras comunes dentro del radio
-radio_m = 500
+radio_m = 3000
 camaras_en_rango = []
 
 for _, row in df_comunes.iterrows():
