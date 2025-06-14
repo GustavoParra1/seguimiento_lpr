@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import folium
-from folium.plugins import MarkerCluster
 from streamlit_folium import st_folium
 from geopy.distance import geodesic
 import unicodedata
@@ -9,13 +8,13 @@ import unicodedata
 # Cargar datos
 df = pd.read_csv("camaraslpr.csv", encoding="latin-1")
 
-# Normalizar columnas
+# Normalizar nombres de columnas
 df.columns = df.columns.str.strip()
 
-# Arreglar codificación de tipo: sin tildes, todo en minúsculas
+# Normalizar texto de la columna 'Tipo' (sin tildes)
 df['Tipo'] = df['Tipo'].apply(lambda x: unicodedata.normalize('NFKD', x.lower()).encode('ascii', errors='ignore').decode())
 
-# Convertir lat/lon a float
+# Convertir coordenadas a float
 df['latitud'] = df['latitud'].astype(str).str.replace(',', '.', regex=False).astype(float)
 df['longitud'] = df['longitud'].astype(str).str.replace(',', '.', regex=False).astype(float)
 
@@ -34,20 +33,20 @@ camara_lpr_sel = st.sidebar.selectbox(
 camara_base = df_lpr[df_lpr['id_camara LPR'] == camara_lpr_sel].iloc[0]
 ubicacion_base = (camara_base['latitud'], camara_base['longitud'])
 
-# Parámetro: radio en metros
-radio_m = 1500
+# Parámetro: radio de búsqueda
+radio_m = 3000
 
-# Mapa base
+# Crear mapa
 m = folium.Map(location=ubicacion_base, zoom_start=14)
 
-# Marcar cámara LPR seleccionada
+# Agregar marcador LPR (rojo)
 folium.Marker(
     ubicacion_base,
-    tooltip=f"Cámara LPR ID: {camara_lpr_sel}",
+    tooltip=f"LPR ID: {camara_lpr_sel}",
     icon=folium.Icon(color="red", icon="camera", prefix="fa")
 ).add_to(m)
 
-# Dibujar círculo de alcance
+# Dibujar círculo alrededor del LPR
 folium.Circle(
     location=ubicacion_base,
     radius=radio_m,
@@ -56,7 +55,7 @@ folium.Circle(
     fill_opacity=0.1
 ).add_to(m)
 
-# Filtrar y marcar cámaras comunes dentro del radio
+# Buscar cámaras comunes dentro del radio
 camaras_en_rango = []
 
 for _, row in df_comunes.iterrows():
@@ -71,19 +70,14 @@ for _, row in df_comunes.iterrows():
         })
         folium.Marker(
             ubic_comun,
-            tooltip=f"Cámara común ID: {row['id_camara']} ({round(dist)} m)",
+            tooltip=f"Común ID: {row['id_camara']} ({round(dist)} m)",
             icon=folium.Icon(color="blue", icon="video-camera", prefix="fa")
         ).add_to(m)
 
-# Mostrar en la app
+# Mostrar mapa
 st.title("Seguimiento desde cámara LPR")
-st.markdown(f"Se muestran cámaras comunes a menos de **{radio_m} m** de la cámara **{camara_lpr_sel}**.")
+st.markdown(f"Cámaras comunes a menos de **{radio_m} m** de la LPR **{camara_lpr_sel}**:")
 st_folium(m, width=700, height=500)
 
-# Mostrar tabla de cámaras en el rango
-if camaras_en_rango:
-    st.subheader("📋 Cámaras comunes cercanas (color azul)")
-    df_rango = pd.DataFrame(camaras_en_rango)
-    st.dataframe(df_rango)
-else:
-    st.info("No hay cámaras comunes dentro del radio especificado.")
+# Mostrar tabla si hay resultados
+if camaras_en_rango
