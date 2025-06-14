@@ -19,11 +19,11 @@ df_lpr = df_lpr[df_lpr['id_cámara LPR'] != 'nan']
 
 
 # Sidebar: cámara LPR
-st.sidebar.title("Seguimiento desde LPR")
 camara_lpr_sel = st.sidebar.selectbox(
     "Seleccioná una cámara LPR",
     df_lpr['id_cámara LPR'].sort_values().unique()
 )
+
 
 
 # Coordenadas base
