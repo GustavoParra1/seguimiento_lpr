@@ -24,8 +24,8 @@ df_lpr['id_cámara LPR'] = df_lpr['id_cámara LPR'].astype(str).str.strip()
 df_lpr = df_lpr[df_lpr['id_cámara LPR'] != 'nan']
 
 camara_lpr_sel = st.sidebar.selectbox(
-    "Seleccioná una cámara LPR",
-    df_lpr['id_cámara LPR'].sort_values().unique()
+"Seleccioná una cámara LPR",
+df_lpr['id_cámara LPR'].sort_values().unique()
 )
 
 
