@@ -73,5 +73,4 @@ for _, row in df_comunes.iterrows():
 # Mostrar
 st.title("Seguimiento desde cámara LPR")
 st.markdown(f"Se muestran cámaras comunes a menos de **{radio_m} m** de la cámara **{camara_lpr_sel}**.")
- # Mapa 16:9 con ancho ajustado a pantalla
-st_folium(mapa, height=600, use_container_width=True)
+st_folium(m, width=700, height=500)
