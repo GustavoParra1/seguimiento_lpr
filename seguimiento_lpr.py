@@ -13,9 +13,8 @@ df['latitud'] = df['latitud'].str.replace(',', '.', regex=False).astype(float)
 df['longitud'] = df['longitud'].str.replace(',', '.', regex=False).astype(float)
 
 # Separar cámaras
-df['Tipo'] = df['Tipo'].astype(str).str.strip().str.lower()
-df_lpr = df[df['Tipo'].str.contains('lpr')]
-df_comunes = df[df['Tipo'].str.contains('común')]
+df_lpr = df[df['Tipo'].str.lower() == 'lpr']
+df_comunes = df[df['Tipo'].str.lower() == 'común']
 
 # Sidebar: cámara LPR
 st.sidebar.title("Seguimiento desde LPR")
@@ -23,6 +22,7 @@ camara_lpr_sel = st.sidebar.selectbox(
     "Seleccioná una cámara LPR",
     df_lpr['id_cámara LPR'].unique()
 )
+
 # Coordenadas base
 camara_base = df_lpr[df_lpr['id_cámara LPR'] == camara_lpr_sel].iloc[0]
 ubicacion_base = (camara_base['latitud'], camara_base['longitud'])
@@ -37,38 +37,17 @@ folium.Marker(
     icon=folium.Icon(color="red", icon="camera", prefix="fa")
 ).add_to(m)
 
-# Círculo rojo alrededor de la cámara LPR
-folium.CircleMarker(
-    location=ubicacion_base,
-    radius=15,
-    color='red',
-    fill=True,
-    fill_color='red',
-    fill_opacity=0.3,
-    tooltip=f"Círculo de referencia LPR: {camara_lpr_sel}"
-).add_to(m)
-
-
-
 # Marcar cámaras comunes en un radio
-radio_m = 3000
+radio_m = 500
 for _, row in df_comunes.iterrows():
     ubic_comun = (row['latitud'], row['longitud'])
     dist = geodesic(ubicacion_base, ubic_comun).meters
     if dist <= radio_m:
-        # Marcador azul
         folium.Marker(
             ubic_comun,
-            tooltip=f"Cámara común ID: {row['id_cámara']}",
+            tooltip=f"Común ID: {row['id_cámara']}",
             icon=folium.Icon(color="blue", icon="video-camera", prefix="fa")
         ).add_to(m)
-        
-        # Etiqueta visible con ID
-        folium.map.Marker(
-            ubic_comun,
-            icon=folium.DivIcon(html=f"""<div style="font-size: 21px; color: blue;"><b>{row['id_cámara']}</b></div>""")
-        ).add_to(m)
-
 
 # Mostrar
 st.title("Seguimiento desde cámara LPR")
