@@ -35,7 +35,7 @@ camara_base = df_lpr[df_lpr['id_camara LPR'] == camara_lpr_sel].iloc[0]
 ubicacion_base = (camara_base['latitud'], camara_base['longitud'])
 
 # Parámetro: radio en metros
-radio_m = 3000
+radio_m = 1500
 
 # Mapa base
 m = folium.Map(location=ubicacion_base, zoom_start=14)
