@@ -13,9 +13,9 @@ df['latitud'] = df['latitud'].str.replace(',', '.', regex=False).astype(float)
 df['longitud'] = df['longitud'].str.replace(',', '.', regex=False).astype(float)
 
 # Separar cámaras
-df['Tipo'] = df['Tipo'].astype(str).str.strip().str.lower()
-df_lpr = df[df['Tipo'].str.contains('lpr')]
-df_comunes = df[df['Tipo'].str.contains('común')]
+# Limpiar nombres de cámaras LPR
+df_lpr['id_cámara LPR'] = df_lpr['id_cámara LPR'].astype(str).str.strip()
+df_lpr = df_lpr[df_lpr['id_cámara LPR'] != 'nan']
 
 
 # Sidebar: cámara LPR
