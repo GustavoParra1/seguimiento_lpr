@@ -19,13 +19,10 @@ df_comunes = df[df['Tipo'].str.contains('común')]
 
 
 # Sidebar: cámara LPR
-st.sidebar.title("Seguimiento desde LPR")
 camara_lpr_sel = st.sidebar.selectbox(
     "Seleccioná una cámara LPR",
     df_lpr['id_cámara LPR'].sort_values().unique()
 )
-
-
 # Coordenadas base
 camara_base = df_lpr[df_lpr['id_cámara LPR'] == camara_lpr_sel].iloc[0]
 ubicacion_base = (camara_base['latitud'], camara_base['longitud'])
