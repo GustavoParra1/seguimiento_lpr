@@ -5,7 +5,7 @@ from folium.plugins import MarkerCluster
 from streamlit_folium import st_folium
 
 # --- Carga de datos ---
-df_camaras = pd.read_csv("camaraslpr.csv", encoding="windows-1252")
+df_camaras = pd.read_csv("camaraslpr.csv", encoding="latin-1")
 df_relaciones = pd.read_csv("relaciones.csv")
 
 # --- Selección UI de LPR ---
@@ -14,6 +14,10 @@ lpr_sel = st.selectbox("Seleccioná una cámara LPR", lprs)
 
 lpr_info = df_camaras[df_camaras["ID_Camara"] == lpr_sel].iloc[0]
 lat_lpr, lon_lpr = lpr_info["Latitud"], lpr_info["Longitud"]
+# Reemplazar comas por puntos y convertir a float
+df_camaras['latitud'] = df_camaras['latitud'].str.replace(',', '.', regex=False).astype(float)
+df_camaras['longitud'] = df_camaras['longitud'].str.replace(',', '.', regex=False).astype(float)
+
 
 rel = df_relaciones[df_relaciones["LPR_ID"] == lpr_sel]
 if not rel.empty:
