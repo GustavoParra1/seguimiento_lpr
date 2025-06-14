@@ -31,11 +31,17 @@ ubicacion_base = (camara_base['latitud'], camara_base['longitud'])
 m = folium.Map(location=ubicacion_base, zoom_start=14)
 
 # Marcar cámara LPR
-folium.Marker(
-    ubicacion_base,
-    tooltip=f"LPR: {camara_lpr_sel}",
-    icon=folium.Icon(color="red", icon="camera", prefix="fa")
+# Círculo rojo alrededor de la cámara LPR
+folium.CircleMarker(
+    location=ubicacion_base,
+    radius=15,
+    color='red',
+    fill=True,
+    fill_color='red',
+    fill_opacity=0.3,
+    tooltip=f"Círculo de referencia LPR: {camara_lpr_sel}"
 ).add_to(m)
+
 
 # Marcar cámaras comunes en un radio
 radio_m = 500
