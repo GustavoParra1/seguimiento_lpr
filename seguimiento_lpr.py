@@ -4,42 +4,55 @@ import folium
 from folium.plugins import MarkerCluster
 from streamlit_folium import st_folium
 
-# --- Carga de datos ---
-df_camaras = pd.read_csv("camaraslpr.csv", encoding="latin-1")
-df_relaciones = pd.read_csv("relaciones.csv")
+# Cargar datos
+df = pd.read_csv("camaraslpr.csv", encoding="latin-1")
 
-# --- Selección UI de LPR ---
-lprs = df_camaras[df_camaras["Tipo"] == "LPR"]["ID_Camara"].tolist()
-lpr_sel = st.selectbox("Seleccioná una cámara LPR", lprs)
+# Convertir lat/lon a float (estaban con coma decimal)
+df['latitud'] = df['latitud'].str.replace(',', '.', regex=False).astype(float)
+df['longitud'] = df['longitud'].str.replace(',', '.', regex=False).astype(float)
 
-lpr_info = df_camaras[df_camaras["ID_Camara"] == lpr_sel].iloc[0]
-lat_lpr, lon_lpr = lpr_info["Latitud"], lpr_info["Longitud"]
+# Separar cámaras por tipo
+df_lpr = df[df['Tipo'].str.lower() == 'lpr']
+df_comunes = df[df['Tipo'].str.lower() == 'común']
 
-rel = df_relaciones[df_relaciones["LPR_ID"] == lpr_sel]
-if not rel.empty:
-    cams_rel = [c.strip() for c in rel.iloc[0]["Camaras_Seguimiento"].split(",")]
-else:
-    cams_rel = []
+# Sidebar: selección de cámara LPR
+st.sidebar.title("Seguimiento desde LPR")
+camara_lpr_sel = st.sidebar.selectbox(
+    "Seleccioná una cámara LPR",
+    df_lpr['id_cámara LPR'].unique()
+)
 
-# --- Mapa con Folium ---
-m = folium.Map(location=[lat_lpr, lon_lpr], zoom_start=15)
-cluster = MarkerCluster().add_to(m)
+# Cargar coordenadas de esa cámara
+camara_base = df_lpr[df_lpr['id_cámara LPR'] == camara_lpr_sel].iloc[0]
+ubicacion_base = (camara_base['latitud'], camara_base['longitud'])
 
-for _, r in df_camaras.iterrows():
-    cid, lat, lon = r["ID_Camara"], r["Latitud"], r["Longitud"]
-    if cid == lpr_sel:
-        color, icon = "red", "star"
-    elif cid in cams_rel:
-        color, icon = "blue", "camera"
-    else:
-        color, icon = "gray", "circle"
-    folium.Marker(
-        [lat, lon],
-        popup=cid,
-        icon=folium.Icon(color=color, icon=icon, prefix="fa")
-    ).add_to(cluster)
+# Crear mapa
+m = folium.Map(location=ubicacion_base, zoom_start=14)
 
+# Cámara LPR seleccionada
+folium.Marker(
+    ubicacion_base,
+    tooltip=f"LPR Seleccionada: {camara_lpr_sel}",
+    icon=folium.Icon(color="red", icon="camera", prefix="fa")
+).add_to(m)
+
+# Cámaras comunes asociadas (ejemplo: en radio de 500 metros)
+from geopy.distance import geodesic
+
+radio_metros = 500
+
+for _, row in df_comunes.iterrows():
+    ubicacion_comun = (row['latitud'], row['longitud'])
+    distancia = geodesic(ubicacion_base, ubicacion_comun).meters
+    if distancia <= radio_metros:
+        folium.Marker(
+            ubicacion_comun,
+            tooltip=f"Común ID: {row['id_cámara']}",
+            icon=folium.Icon(color="blue", icon="video-camera", prefix="fa")
+        ).add_to(m)
+
+# Mostrar mapa
 st.title("Seguimiento desde cámara LPR")
-st.markdown(f"**LPR seleccionada:** {lpr_sel}")
+st.markdown(f"Mostrando cámaras comunes a menos de {radio_metros} metros de **{camara_lpr_sel}**.")
 st_folium(m, width=700, height=500)
 
