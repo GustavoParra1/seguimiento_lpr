@@ -5,7 +5,7 @@ from folium.plugins import MarkerCluster
 from streamlit_folium import st_folium
 
 # --- Carga de datos ---
-df_camaras = pd.read_csv("camaras.csv")
+df_camaras = pd.read_csv("camaraslpr.csv")
 df_relaciones = pd.read_csv("relaciones.csv")
 
 # --- Selección UI de LPR ---
