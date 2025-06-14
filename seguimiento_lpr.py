@@ -19,11 +19,11 @@ df_comunes = df[df['Tipo'].str.lower() == 'común']
 st.sidebar.title("Seguimiento desde LPR")
 camara_lpr_sel = st.sidebar.selectbox(
     "Seleccioná una cámara LPR",
-    df_lpr['id_cámara LPR'].unique()
+    df_lpr['id_cámara_LPR'].unique()
 )
 
 # Cargar coordenadas de esa cámara
-camara_base = df_lpr[df_lpr['id_cámara LPR'] == camara_lpr_sel].iloc[0]
+camara_base = df_lpr[df_lpr['id_cámara_LPR'] == camara_lpr_sel].iloc[0]
 ubicacion_base = (camara_base['latitud'], camara_base['longitud'])
 
 # Crear mapa
