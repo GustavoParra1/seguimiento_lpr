@@ -46,7 +46,7 @@ for _, row in df_comunes.iterrows():
         folium.Marker(
             ubic_comun,
             tooltip=f"Común ID: {row['id_cámara']}",
-            icon=folium.Icon(color="blue", icon="video-camera", prefix="fa")
+            folium.Icon(color="blue", icon="video-camera", prefix="fa")
         ).add_to(m)
 
 # Mostrar
