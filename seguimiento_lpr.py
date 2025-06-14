@@ -37,6 +37,19 @@ folium.Marker(
     icon=folium.Icon(color="red", icon="camera", prefix="fa")
 ).add_to(m)
 
+# Círculo rojo alrededor de la cámara LPR
+folium.CircleMarker(
+    location=ubicacion_base,
+    radius=15,
+    color='red',
+    fill=True,
+    fill_color='red',
+    fill_opacity=0.3,
+    tooltip=f"Círculo de referencia LPR: {camara_lpr_sel}"
+).add_to(m)
+
+
+
 # Marcar cámaras comunes en un radio
 radio_m = 1500
 for _, row in df_comunes.iterrows():
