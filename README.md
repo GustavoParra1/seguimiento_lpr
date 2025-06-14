@@ -6,10 +6,6 @@ Este proyecto permite:
 
 ## Instalación
 
-```bash
-git clone https://github.com/TU-USUARIO/seguimiento-lpr.git
+mkdir seguimiento-lpr
 cd seguimiento-lpr
-python3 -m venv venv
-source venv/bin/activate
-pip install streamlit pandas folium streamlit-folium
-streamlit run seguimiento_lpr.py
+
