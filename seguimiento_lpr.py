@@ -88,7 +88,7 @@ for _, row in df_comunes.iterrows():
 # Mostrar mapa
 st.title("Seguimiento desde cámara LPR")
 st.markdown(f"Cámaras comunes a menos de **{radio_m} m** de la LPR **{camara_lpr_sel}**:")
-st_folium(m, width=700, height=500)
+st_folium(m, width=1000, height=700)
 
 # Mostrar tabla
 if camaras_en_rango:
