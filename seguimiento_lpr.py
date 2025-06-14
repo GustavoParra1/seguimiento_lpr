@@ -43,7 +43,7 @@ folium.Marker(
 folium.map.Marker(
     ubicacion_base,
     icon=folium.DivIcon(
-        html=f"""<div style="font-size: 21px; color:'red'; font-weight: bold">{camara_lpr_sel}</div>"""
+        html=f"""<div style="font-size: 21px; color: red; font-weight: bold">{camara_lpr_sel}</div>"""
     )
 ).add_to(m)
 
