@@ -51,7 +51,7 @@ folium.CircleMarker(
 
 
 # Marcar cámaras comunes en un radio
-radio_m = 2500
+radio_m = 3000
 for _, row in df_comunes.iterrows():
     ubic_comun = (row['latitud'], row['longitud'])
     dist = geodesic(ubicacion_base, ubic_comun).meters
