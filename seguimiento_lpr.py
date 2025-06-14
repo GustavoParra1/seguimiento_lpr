@@ -15,7 +15,6 @@ df['longitud'] = df['longitud'].str.replace(',', '.', regex=False).astype(float)
 # Separar cámaras
 df_lpr = df[df['Tipo'].str.lower() == 'lpr']
 df_comunes = df[df['Tipo'].str.lower() == 'común']
-
 # Sidebar: cámara LPR
 st.sidebar.title("Seguimiento desde LPR")
 camara_lpr_sel = st.sidebar.selectbox(
