@@ -29,7 +29,7 @@ camara_base = df_lpr[df_lpr['id_camara LPR'] == camara_lpr_sel].iloc[0]
 ubicacion_base = (camara_base['latitud'], camara_base['longitud'])
 
 # Radio
-radio_m = 3000
+radio_m = 1500
 m = folium.Map(location=ubicacion_base, zoom_start=14)
 
 # Agregar marcador LPR (rojo)
@@ -43,7 +43,7 @@ folium.Marker(
 folium.map.Marker(
     ubicacion_base,
     icon=folium.DivIcon(
-        html=f"""<div style="font-size: 12px; color: red; font-weight: bold">{camara_lpr_sel}</div>"""
+        html=f"""<div style="font-size: 21px; color: red; font-weight: bold">{camara_lpr_sel}</div>"""
     )
 ).add_to(m)
 
@@ -81,7 +81,7 @@ for _, row in df_comunes.iterrows():
         folium.map.Marker(
             ubic_comun,
             icon=folium.DivIcon(
-                html=f"""<div style="font-size: 11px; color: blue; font-weight: bold">{row['id_camara']}</div>"""
+                html=f"""<div style="font-size: 21px; color: blue; font-weight: bold">{row['id_camara']}</div>"""
             )
         ).add_to(m)
 
