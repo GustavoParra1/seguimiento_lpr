@@ -66,7 +66,7 @@ for _, row in df_comunes.iterrows():
         # Etiqueta visible con ID
         folium.map.Marker(
             ubic_comun,
-            icon=folium.DivIcon(html=f"""<div style="font-size: 12px; color: blue;"><b>{row['id_cámara']}</b></div>""")
+            icon=folium.DivIcon(html=f"""<div style="font-size: 21px; color: blue;"><b>{row['id_cámara']}</b></div>""")
         ).add_to(m)
 
 
