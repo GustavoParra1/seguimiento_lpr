@@ -8,9 +8,8 @@ from geopy.distance import geodesic
 # Cargar datos
 df = pd.read_csv("camaraslpr.csv", encoding="latin-1")
 
-# Normalizar nombres de columnas
+# Normalizar columnas
 df.columns = df.columns.str.strip()
-df.columns = df.columns.str.normalize('NFKD').str.encode('ascii', errors='ignore').str.decode('utf-8')
 
 # Convertir lat/lon a float
 df['latitud'] = df['latitud'].str.replace(',', '.', regex=False).astype(float)
@@ -18,15 +17,14 @@ df['longitud'] = df['longitud'].str.replace(',', '.', regex=False).astype(float)
 
 # Separar cámaras
 df_lpr = df[df['Tipo'].str.lower() == 'lpr']
-df_comunes = df[df['Tipo'].str.lower() == 'comun']
+df_comunes = df[df['Tipo'].str.lower() == 'común']
 
-# Sidebar
+# Sidebar: elegir cámara LPR
 st.sidebar.title("Seguimiento desde LPR")
 camara_lpr_sel = st.sidebar.selectbox(
     "Seleccioná una cámara LPR",
-   df_lpr['id_camara LPR'].unique()
+    df_lpr['id_camara LPR'].unique()
 )
-
 
 # Coordenadas base
 camara_base = df_lpr[df_lpr['id_camara LPR'] == camara_lpr_sel].iloc[0]
@@ -35,14 +33,14 @@ ubicacion_base = (camara_base['latitud'], camara_base['longitud'])
 # Mapa base
 m = folium.Map(location=ubicacion_base, zoom_start=14)
 
-# Marcar cámara LPR
+# Marcar cámara LPR seleccionada
 folium.Marker(
     ubicacion_base,
-    tooltip=f"LPR: {camara_lpr_sel}",
+    tooltip=f"Cámara LPR ID: {camara_lpr_sel}",
     icon=folium.Icon(color="red", icon="camera", prefix="fa")
 ).add_to(m)
 
-# Marcar cámaras comunes en un radio
+# Marcar cámaras comunes dentro del radio
 radio_m = 500
 for _, row in df_comunes.iterrows():
     ubic_comun = (row['latitud'], row['longitud'])
@@ -50,11 +48,11 @@ for _, row in df_comunes.iterrows():
     if dist <= radio_m:
         folium.Marker(
             ubic_comun,
-            tooltip=f"Común ID: {row['id_camara']}",
+            tooltip=f"Cámara común ID: {row['id_camara']}",
             icon=folium.Icon(color="blue", icon="video-camera", prefix="fa")
         ).add_to(m)
 
-# Mostrar
+# Mostrar en la app
 st.title("Seguimiento desde cámara LPR")
 st.markdown(f"Se muestran cámaras comunes a menos de **{radio_m} m** de la cámara **{camara_lpr_sel}**.")
 st_folium(m, width=700, height=500)
