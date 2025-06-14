@@ -1,10 +1,10 @@
-# Seguimiento de Vehículos desde LPR
+# Seguimiento LPR
 
-Este proyecto permite:
-- Seleccionar una cámara LPR.
-- Mostrar en un mapa todas sus cámaras comunes asociadas.
+Este proyecto en Streamlit permite seleccionar una cámara LPR (lector de patentes) y visualizar sobre un mapa todas las cámaras comunes cercanas (en un radio de 500 metros) para hacer seguimiento de un vehículo.
 
-## Instalación
+## Cómo usar
 
-mkdir seguimiento-lpr
-cd seguimiento-lpr
+1. Cloná este repositorio.
+2. Asegurate de tener Python instalado.
+3. Instalá las dependencias:
+
