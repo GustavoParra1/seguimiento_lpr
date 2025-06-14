@@ -45,7 +45,7 @@ for _, row in df_comunes.iterrows():
     if dist <= radio_m:
         folium.Marker(
             ubic_comun,
-            tooltip=f"Común ID: {row['id_cámara']}",
+            tooltip=f"Común ID: {row['id_camara']}",
             icon=folium.Icon(color="blue", icon="video-camera", prefix="fa")
         ).add_to(m)
 
