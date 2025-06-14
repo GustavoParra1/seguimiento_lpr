@@ -29,7 +29,7 @@ camara_lpr_sel = st.sidebar.selectbox(
 
 
 # Coordenadas base
-camara_base = df_lpr[df_lpr['id_cámara LPR'] == camara_lpr_sel].iloc[0]
+camara_base = df_lpr[df_lpr['id_camara LPR'] == camara_lpr_sel].iloc[0]
 ubicacion_base = (camara_base['latitud'], camara_base['longitud'])
 
 # Mapa base
