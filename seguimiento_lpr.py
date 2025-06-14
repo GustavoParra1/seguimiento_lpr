@@ -11,9 +11,6 @@ df_relaciones = pd.read_csv("relaciones.csv")
 # --- Selección UI de LPR ---
 lprs = df_camaras[df_camaras["Tipo"] == "LPR"]["ID_Camara"].tolist()
 lpr_sel = st.selectbox("Seleccioná una cámara LPR", lprs)
-# Reemplazar comas por puntos y convertir a float
-df_camaras['latitud'] = df_camaras['latitud'].str.replace(',', '.', regex=False).astype(float)
-df_camaras['longitud'] = df_camaras['longitud'].str.replace(',', '.', regex=False).astype(float)
 
 lpr_info = df_camaras[df_camaras["ID_Camara"] == lpr_sel].iloc[0]
 lat_lpr, lon_lpr = lpr_info["Latitud"], lpr_info["Longitud"]
