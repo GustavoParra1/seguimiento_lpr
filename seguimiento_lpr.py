@@ -56,11 +56,19 @@ for _, row in df_comunes.iterrows():
     ubic_comun = (row['latitud'], row['longitud'])
     dist = geodesic(ubicacion_base, ubic_comun).meters
     if dist <= radio_m:
+        # Marcador azul
         folium.Marker(
             ubic_comun,
-            tooltip=f"Común ID: {row['id_cámara']}",
+            tooltip=f"Cámara común ID: {row['id_cámara']}",
             icon=folium.Icon(color="blue", icon="video-camera", prefix="fa")
         ).add_to(m)
+        
+        # Etiqueta visible con ID
+        folium.map.Marker(
+            ubic_comun,
+            icon=folium.DivIcon(html=f"""<div style="font-size: 12px; color: blue;"><b>{row['id_cámara']}</b></div>""")
+        ).add_to(m)
+
 
 # Mostrar
 st.title("Seguimiento desde cámara LPR")
