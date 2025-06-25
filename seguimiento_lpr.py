@@ -6,7 +6,7 @@ from geopy.distance import geodesic
 import unicodedata
 
 # Cargar datos
-df = pd.read_csv("camaraslpr.csv", encoding="latin-1")
+df = pd.read_csv("camaraslpr_limpio.csv", encoding="latin-1")
 df.columns = df.columns.str.strip()
 
 # Normalizar texto en 'Tipo'
