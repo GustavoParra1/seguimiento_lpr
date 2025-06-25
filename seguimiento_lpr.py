@@ -99,5 +99,5 @@ if camaras_en_rango:
 else:
    File "/mount/src/seguimiento_lpr/seguimiento_lpr.py", line 100
       st.info("No hay cámaras comunes dentro del radio.")"
-                                                         ^
+                                                        
 
