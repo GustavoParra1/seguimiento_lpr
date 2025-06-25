@@ -97,5 +97,7 @@ if camaras_en_rango:
     df_rango = pd.DataFrame(camaras_en_rango)
     st.dataframe(df_rango)
 else:
-    st.info("No hay cámaras comunes dentro del radio.")"
+   File "/mount/src/seguimiento_lpr/seguimiento_lpr.py", line 100
+      st.info("No hay cámaras comunes dentro del radio.")"
                                                          ^
+SyntaxError: unterminated string literal (detected at line 100)
