@@ -98,3 +98,5 @@ if camaras_en_rango:
     st.dataframe(df_rango)
 else:
     st.info("No hay cámaras comunes dentro del radio.")"
+
+
