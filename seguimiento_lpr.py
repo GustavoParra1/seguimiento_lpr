@@ -86,6 +86,7 @@ for _, row in df_comunes.iterrows():
             )
         ).add_to(m)
 
+
 # Mostrar mapa
 st.title("Seguimiento desde cámara LPR")
 st.markdown(f"Cámaras comunes a menos de **{radio_m} m** de la LPR **{camara_lpr_sel}**:")
