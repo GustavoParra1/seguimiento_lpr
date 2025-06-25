@@ -17,8 +17,9 @@ df['latitud'] = df['latitud'].astype(str).str.replace(',', '.', regex=False).ast
 df['longitud'] = df['longitud'].astype(str).str.replace(',', '.', regex=False).astype(float)
 
 # Separar cámaras
-df_lpr = df[df['Tipo'] == 'lpr']
-df_comunes = df[df['Tipo'] == 'comun']
+df['Tipo'] = df['Tipo'].astype(str).str.strip().str.lower()
+df_lpr = df[df['Tipo'].str.contains('lpr')]
+df_comunes = df[df['Tipo'].str.contains('común')]
 
 # Sidebar
 st.sidebar.title("Seguimiento desde LPR")
