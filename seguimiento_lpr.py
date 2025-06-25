@@ -23,11 +23,7 @@ df_comunes = df[df['Tipo'].str.contains('común')]
 
 # Sidebar
 st.sidebar.title("Seguimiento desde LPR")
-camara_lpr_sel = st.sidebar.selectbox(
-    "Seleccioná una cámara LPR",
-    df_lpr['id_cámara LPR'].sort_values().unique()
-)
-
+camara_lpr_sel = st.sidebar.selectbox("Seleccioná una cámara LPR", df_lpr['id_camara LPR'].unique())
 
 # Datos de la cámara LPR elegida
 camara_base = df_lpr[df_lpr['id_camara LPR'] == camara_lpr_sel].iloc[0]
